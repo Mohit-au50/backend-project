@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Mohit-au50">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home page</title><!-- Open source icon library link -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+
+        :root {
+            --nav-width: 5.75rem;
+            --nav-ex-width: 15.75rem;
+
+            --first: #ffb300;
+            --bg-color: #12192c;
+            --sub-color: #b6cefc;
+            --white: #fff;
+
+            --normal-font-size: 1rem;
+            --small-font-size: .86rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .main {
+            position: relative;
+            padding-left: var(--nav-ex-width);
+            width: 100%;
+            height: 100vh;
+            /* background-color: grey; */
+            transition: .4s;
+            overflow-y: scroll;
+            overflow: hidden;
+        }
+        .main.padding-left {
+            padding-left: var(--nav-width);
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .l-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--nav-ex-width);
+            height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--white);
+            padding: 1.5rem 1.5rem 2rem;
+            z-index: 1;
+            transition: .4s;
+        }
+
+        .nav {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            overflow-y: scroll;
+        }
+        .nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav_brand {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .img {
+            position: relative;
+            height: 50px;
+            min-width: 40px;
+
+            display: grid;
+            place-items: center;
+        }
+        .img img {
+            position: absolute;
+        }
+        .nav_logo {
+            color: var(--white);
+            font-weight: bold;
+            margin: 0 1rem 0 1rem;
+            font-size: 24px;
+            line-height: 50px;
+        }
+        .nav_link {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            align-items: center;
+            column-gap: .75rem;
+            padding: .75rem;
+            color: var(--white);
+            border-radius: .5rem;
+            margin-bottom: 1rem;
+            transition: .3s;
+            cursor: pointer;
+        }
+        .nav_link:hover {
+            background-color: var(--first);
+        }
+        .nav_icon {
+            font-size: 1.25rem;
+        }
+        .nav_name {
+            font-size: var(--small-font-size);
+        }
+
+        .expander {
+            width: calc(var(--nav-width));
+        }
+
+        .nav_link.active {
+            background-color: var(--first);
+        }
+
+        .collapse {
+            display: grid;
+            align-items: center;
+            column-gap: .75rem;
+            padding: .75rem;
+            color: var(--white);
+            border-radius: .5rem;
+            margin-bottom: .75rem;
+            transition: .3s;
+            cursor: pointer;
+            grid-template-columns: 20px max-content 1fr;
+        }
+        .arrow_link {
+            justify-self: flex-end;
+            transition: .4s;
+        }
+        .collapse_menu {
+            display: none;
+            grid-column: 1 / 4;
+            padding-top: 1.25rem;
+            padding-left: 1rem;
+        }
+        .collapse_menu .nav_link {
+            padding: .75rem;
+            margin-bottom: .5rem;
+        }
+        .collapse_sublink {
+            color: var(--white);
+            font-size: var(--small-font-size);
+        }
+        .collapse_sublink:hover {
+            color: var(--white);
+        }
+
+
+        .showCollapse {
+            display: block;
+        }
+        .rotate {
+            transform: rotate(180deg);
+        }
+
+        .header {
+            position: relative;
+            left: 0;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            height: 70px;
+            box-shadow: 0 1px 9px  gray;
+            background-color: var(--white);
+        }
+
+
+        .header .left_content {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            place-items: center;
+        }
+        .left_content #nav_toggle {
+            display: grid;
+            place-items: center;
+            width: 70px;
+            height: 70px;
+            font-size: 1.85rem;
+            cursor: pointer;
+        }
+        .left_content .dropdown {
+            display: grid;
+            grid-template-columns: max-content 24px;
+            border: 1px solid var(--bg-color);
+            border-radius: .25rem;
+            width: 16rem;
+            padding: .5rem 1rem;
+            background-color: var(--white);
+            cursor: pointer;
+            place-items: center;
+            justify-content: center;
+        }
+        
+        .left_content .sub_menu {
+            position: absolute;
+            top: 60px;
+            width: 16rem;
+            padding: 0rem;
+            background-color: var(--white);
+            border: 1px solid var(--bg-color);
+            border-radius: .25rem;
+
+            overflow: hidden;
+            display: grid;
+            display: none;
+            grid-template-columns: 1fr;
+        }
+        .left_content .sub_menu.drop {
+            display: block;
+            display: grid;
+        }
+        .sub_menu a {
+            padding: .5rem 1rem;
+            color: #242424;
+        }
+        .sub_menu a:hover {
+            background-color: #ffc233;
+            padding: .5rem 1rem;
+        }
+
+        .header .right_content {
+            grid-column: 3 / 4;
+            display: grid;
+            grid-template-columns: max-content max-content;
+            place-items: center;
+        }
+        .right_content .dropdown {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            cursor: pointer;
+            place-items: center;
+        }
+        .right_content .rs_icon {
+            display: grid;
+            place-items: center;
+            width: 70px;
+            height: 70px;
+            font-size: 1.85rem;
+            cursor: pointer;
+        }
+        .right_content .user_img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 1.5rem;
+            border: 1px solid grey;
+        }
+
+        .right_content .sub_menu {
+            position: absolute;
+            top: 70px;
+            width: 8.5rem;
+            padding: 0rem;
+            background-color: var(--white);
+            border: 1px solid var(--bg-color);
+            border-radius: .25rem;
+
+            overflow: hidden;
+            display: grid;
+            display: none;
+            grid-template-columns: 1fr;
+        }
+
+        .right_content .sub_menu span {
+            padding-left: .75rem;
+        }
+        .right_content .sub_menu.drop {
+            display: block;
+            display: grid;
+        }
+
+        .section {
+            position: relative;
+            width: 100%;
+            height: 605px;
+            /* background-color: blanchedalmond; */
+            padding: 2rem;
+
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            overflow-y: scroll;
+        }
+        .section::-webkit-scrollbar {
+            display: none;
+        }
+        .section .dashboard {
+            width: 80%;
+            height: auto;
+            padding: 1rem;
+            border: .05rem solid var(--bg-color);
+            background-color: rgba(18, 25, 44, .1);
+            border-radius: .5rem;
+        }
+        .dashboard .profile {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 220px;
+        }
+        .profile .left {
+            position: relative;
+            width: 100%;
+            padding-left: 46%;
+        }
+        .left .dash-img {
+            margin-top: 20px;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background-color: antiquewhite;
+        }
+        .left .icon {
+            position: absolute;
+            bottom: 2rem;
+            right: 4.5rem;
+            display: block;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background-color: #242424;
+            color: #fff;
+            transition: .4s;
+        }
+        .icon.shift {
+            right: 6.75rem;
+        }
+        
+
+        .profile .right {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+        }
+        .right .heading {
+            height: 50px;
+            line-height: 50px;
+            font-size: 2rem;
+        }
+        .right .sub-text {
+            height: 40px;
+            line-height: 40px;
+            font-size: 1.25rem;
+            margin-top: 9px;
+        }
+
+
+        .dashboard .details {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+        .details p {
+            position: relative;
+            display: inline-block;
+            font-size: var(--small-font-size);
+            background-color: yellowgreen;
+            padding: .3rem .6rem;
+            border-radius: .25rem;
+        }
+        p .tooltiptext {
+            visibility: hidden;
+            display: grid;
+            grid-template-columns: max-content;
+            background-color: #242424;
+            color: #fff;
+            text-align: center;
+            padding: .3rem .6rem;
+            border-radius: .25rem;
+            
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+            bottom: 140%;
+            left: 50%;
+            transform: translate(-50%);
+        }
+        .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 21px;
+            left: 50%;
+
+            width: 9px;
+            height: 9px;
+            background-color: #242424;
+            transform: translate(-50%) rotate(45deg);
+        }
+
+        p:hover .tooltiptext {
+            visibility: visible;
+        }
+        .details .first {
+            grid-column: 2 / 3;
+        }
+
+        .details .personal-details {
+            height: 50px;
+            /* display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center; */
+            display: grid;
+            grid-template-columns: 2rem 1fr 1fr 1fr 2rem;
+            place-items: center;
+        }
+
+        .details .id-details {
+            height: 50px;
+            /* display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center; */
+            display: grid;
+            grid-template-columns: 2rem 1fr 1fr 1fr 2rem;
+            place-items: center;
+        }
+
+        .details .faculty-details {
+            height: 50px;
+            /* display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center; */
+            display: grid;
+            grid-template-columns: 2rem 1fr 1fr 1fr 2rem;
+            place-items: center;
+        }
+
+        .details .progress-details {
+            height: 60px;
+            /* display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center; */
+            display: grid;
+            grid-template-columns: 2rem 1fr 1fr 2rem;
+            place-items: center;
+        }
+        .progress-details p {
+            background-color: #fff;
+            border: 2px solid yellowgreen;
+            font-size: var(--small-font-size);
+            padding: .3rem .6rem;
+            border-radius: .25rem;
+        }
+
+        .footer {
+            position: sticky;
+            bottom: 0;
+            left: 0;
+            /* background-color: red; */
+            width: 100%;
+            display: grid;
+            place-items: center;
+            height: 70px;
+            line-height: 70px;
+            color: rgba(36, 36, 36, .5);
+        }
+        
+        
+        
+        .dashboard2 {
+        display: flex;
+        justify-content: space-between;
+        width: 80%;
+        height: auto;
+        padding: 1rem;
+        border: .05rem solid var(--bg-color);
+        background-color: rgba(18, 25, 44, .1);
+        border-radius: .5rem;
+        font-size: var(--small-font-size);
+        }
+        .dashboard2 .left_link {
+        width: 12rem;
+        }
+        .dashboard2 .right_data {
+        width: 43rem;
+        /* background-color: lightblue; */
+        /* border: 1px solid red; */
+        }
+        .dashboard2 .tablinks {
+        color: #242424;
+        width: 100%;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        text-align: left;
+        margin-bottom: .5rem;
+        padding: 1rem 0rem 1rem 1rem;
+        border-radius: .5rem;
+        }
+        .dashboard2 .tablinks:hover {
+        color: var(--first);
+        background-color: var(--bg-color);
+        }
+        .dashboard2 .tablinks.active {
+        color: var(--first);
+        background-color: var(--bg-color);
+        }
+
+        .form h2 {
+        font-size: 1.5rem;
+        line-height: 2.4rem;
+        }
+        .form .file {
+        height: 6rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
+        .f-left .p-file::-webkit-file-upload-button {
+        padding: .5rem 1rem;
+        background-color: var(--bg-color);
+        color: var(--first);
+        border-radius: .25rem;
+        }
+        .f-right .img{
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        background-color: grey;
+        }
+        .form .same {
+        /* background-color: red; */
+        height: 4rem;
+        border-bottom: .01rem solid grey;
+        /* border-top: .01rem solid grey; */
+        padding: .5rem 0rem;
+        }
+        .form .border {
+        border-bottom: none;
+        }
+        .same label {
+        /* background-color: yellow; */
+        line-height: 1.5rem;
+        
+        color: rgba(36, 36, 36, .9);
+        }
+        .same input {
+        width: 18rem;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        line-height: 1.5rem;
+        color: rgba(36, 36, 36, .5);
+        }
+
+        #profile_tab {
+            position: relative;
+            top: -33.9rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <main class="main" id="main">
+        <header class="header">
+            <div class="left_content">
+                <i class="side-menu ri-menu-fold-line" id="nav_toggle"></i>
+                <div>
+                    <div class="dropdown" id="dropdown1">
+                        <span>FSD-JG-Aug-2022</span>
+                        <i class="ri-arrow-down-s-line arrow arrow_link" id="arrow3"></i>
+                    </div>
+                    <ul class="sub_menu" id="sub_menu1">
+                        <a href="#" class="sub_link" id="default">Full Stack Pre Course - 5</a>
+                        <a href="#" class="sub_link" id="batch">FSD-JG-Aug-2022</a>
+                    </ul>
+                </div>
+            </div>
+            <div class="right_content">
+                <i class="ri-bookmark-fill rs_icon"></i>
+                <div>
+                    <div class="dropdown" id="dropdown2">
+                        <div class="user_img">
+                            <img src="" alt="" width="100%">
+                        </div>
+                        <div class="user_name">Mohit Kr</div>
+                    </div>
+                    <ul class="sub_menu" id="sub_menu2">
+                        
+                        <a href="#" class="sub_link">
+                            <i class="ri-user-fill"></i>
+                            <span>Profile</span>
+                        </a>
+                        <a href="/logout" class="sub_link">
+                            <i class="ri-logout-circle-r-fill"></i>
+                            <span>Logout</span>
+                        </a>
+                        
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <aside class="l-navbar" id="navbar">
+            <nav class="nav">
+                <div>
+                    <div class="nav_brand">
+                        <span class="img">
+                            <img src="images/logo.png" alt="logo" width="50px">
+                        </span>
+                        
+                        <a href="#" class="nav_logo">AttainU</a>
+                    </div>
+    
+                    <div class="nav_list">
+                        <!-- dashboard link -->
+                        <a href="#" class="nav_link active">
+                            <i class="ri-dashboard-3-fill nav_icon"></i>
+                            <span class="nav_name">Dashboard</span>
+                        </a>
+    
+                        <!-- Announcement link -->
+                        <a href="#" class="nav_link">
+                            <i class="ri-user-voice-fill nav_icon"></i>
+                            <span class="nav_name">Announcements</span>
+                        </a>
+    
+                        <!-- Session link -->
+                        <a href="#" class="nav_link">
+                            <i class="ri-computer-fill nav_icon"></i>
+                            <span class="nav_name">Session</span>
+                        </a>
+    
+                        <!-- Student link with sub links -->
+                        <div class="collapse" id="collapse_link1">
+                            <i class="ri-user-2-fill nav_icon"></i>
+                            <span class="nav_name">Student</span>
+    
+                            <i class="ri-arrow-down-s-line arrow arrow_link" id="arrow1"></i>
+                            <ul class="collapse_menu" id="collapse_menu1">
+                                <a href="#" class="collapse_sublink nav_link">Attendance</a>
+                                <a href="#" class="collapse_sublink nav_link">CC/Assignment</a>
+                                <a href="#" class="collapse_sublink nav_link">Test</a>
+                                <a href="#" class="collapse_sublink nav_link">Library</a>
+                                <a href="#" class="collapse_sublink nav_link">Reading Materials</a>
+                                <a href="#" class="collapse_sublink nav_link">Homework Solutions</a>
+                                <a href="#" class="collapse_sublink nav_link">GitHub Setup</a>
+                                <a href="#" class="collapse_sublink nav_link">Curriculum</a>
+                            </ul>
+                        </div>
+    
+                        <!-- Ask doubt link with sub links -->
+                        <div class="collapse" id="collapse_link2">
+                            <i class="ri-question-fill nav_icon"></i>
+                            <span class="nav_name">Ask doubt</span>
+    
+                            <i class="ri-arrow-down-s-line arrow arrow_link" id="arrow2"></i>
+                            <ul class="collapse_menu" id="collapse_menu2">
+                                <a href="#" class="collapse_sublink nav_link">Recent QnA</a>
+                                <a href="#" class="collapse_sublink nav_link">Pending Questions</a>
+                                <a href="#" class="collapse_sublink nav_link">Resolved Questions</a>
+                                <a href="#" class="collapse_sublink nav_link">Discussion Forum</a>
+                            </ul>
+                        </div>
+    
+                        <!-- Certificate link -->
+                        <a href="#" class="nav_link">
+                            <i class="ri-medal-fill nav_icon"></i>
+                            <span class="nav_name">Certificate</span>
+                        </a>
+    
+                        <!-- Account Details link -->
+                        <a href="#" class="nav_link">
+                            <i class="ri-wallet-fill nav_icon"></i>
+                            <span class="nav_name">Account Details</span>
+                        </a>
+    
+                        <!-- Reward & referral link -->
+                        <a href="#" class="nav_link">
+                            <i class="ri-award-fill nav_icon"></i>
+                            <span class="nav_name">Reward & referral</span>
+                        </a>
+    
+                        <!-- Freshdesk link -->
+                        <a href="#" class="nav_link">
+                            <i class="ri-customer-service-2-fill nav_icon"></i>
+                            <span class="nav_name">Freshdesk</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <section class="section">
+            <p><%= hey%></p>
+            <div class="dashboard">
+                <div class="profile">
+                    <div class="left">
+                        <div class="dash-img">
+                            <!-- <img src="" alt="user_profile"> -->
+                        </div>
+                        <span class="icon" id="icon">
+                            <i class="ri-phone-camera-fill"></i>
+                        </span>
+                    </div>
+                    <div class="right">
+                        <h1 class="heading">Welcome, Mohit Kr</h1>
+                        <p class="sub-text">Catch a glimpse of your profile</p>
+                    </div>
+                </div>
+
+                <div class="details">
+                    <div class="personal-details">
+                        <p class="phone first">
+                            8826709142
+                            <span class="tooltiptext">Phone</span>
+                        </p>
+                        <p class="email second">
+                            mk.mohit2440@gmail.com
+                            <span class="tooltiptext">Email</span>
+                        </p>
+                        <p class="github third">
+                            https://github.com/Mohit-au50
+                            <span class="tooltiptext">Github</span>
+                        </p>
+                    </div>
+
+                    <div class="id-details">
+                        <p class="first">
+                            AUFS050014
+                            <span class="tooltiptext">Roll Number</span>
+                        </p>
+                        <p class="second">
+                            FSD-JG-Aug-2022
+                            <span class="tooltiptext">Batch</span>
+                        </p>
+                        <p class="third">
+                            22-Aug-2022
+                            <span class="tooltiptext">Batch start date</span>
+                        </p>
+                    </div>
+
+                    <div class="faculty-details" id="visibility1">
+                        <p class="first">
+                            Sitesh
+                            <span class="tooltiptext">Mentor</span>
+                        </p>
+                        <p class="second">
+                            Erra Lalitha
+                            <span class="tooltiptext">Teaching Coordinator</span>
+                        </p>
+                        <p class="third">
+                            Swathi Madamoni
+                            <span class="tooltiptext">Class Representative</span>
+                        </p>
+                    </div>
+
+                    <div class="progress-details" id="visibility2">
+                        <p class="first">
+                            Class Engagement Rank : 19
+                            <span class="tooltiptext">Engagement Rank is based on MCQ participation in the class.</span>
+                        </p>
+                        <p class="second">
+                            Cumulative Test Rank : 3
+                            <span class="tooltiptext">Overall test ranking</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="profile_tab">
+            <div class="dashboard2">
+                <div class="tab nav_list left_link">
+                    <button class="tablinks " onclick="openColumn(event, 'personal')" id="defaultOpen">Personal Details</button>
+                    <button class="tablinks " onclick="openColumn(event, 'batch')">Batch Details</button>
+                    <button class="tablinks " onclick="openColumn(event, 'address')">Address Details</button>
+                    <button class="tablinks " onclick="openColumn(event, 'education')">Educational Details</button>
+                    <button class="tablinks " onclick="openColumn(event, 'settings')">Settings</button>
+                </div>
+                
+                <div class="right_data ">
+                    <form action="" id="personal" class="form tabcontent">
+                        <h2>Personal Details</h2>
+
+                        <div class="file">
+                            <div class="f-left">
+                                <input class="p-file" type="file" name="p-file">
+                            </div>
+                            <div class="f-right">
+                                <img src="" alt="" class="img">
+                            </div>
+                        </div>
+
+                        <div class="same">
+                            <label for="name">Name</label> <br>
+                            <input type="text" name="name" value="name">
+                        </div>
+
+                        <div class="same">
+                            <label for="gender">Gender</label> <br>
+                            <input type="text" name="gender" value="Male">
+                        </div>
+
+                        <div class="same">
+                            <label for="birth">Birth Year</label> <br>
+                            <input type="text" name="birth" value="0000">
+                        </div>
+
+                        <div class="same">
+                            <label for="phone">Phone Number</label> <br>
+                            <input type="phone" name="phone" value="0000000000">
+                        </div>
+
+                        <div class="same">
+                            <label for="email">Email</label> <br>
+                            <input type="email" name="email" value="124@gmail.com">
+                        </div>
+
+                        <div class="same">
+                            <label for="github">Github</label> <br>
+                            <input type="text" name="github" value="https://github.com/github username">
+                        </div>
+                        <div class="same">
+                            <label for="linkedIn">LinkedIn</label> <br>
+                            <input type="text" name="linkedIn">
+                        </div>
+                        <div class="same border">
+                            <label for="resume">Resume</label> <br>
+                            <input type="text" name="resume">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            AttainU &copy; 2023
+        </footer>
+    </main>
+
+    <script>
+
+        const showMenu = (toggleId, navbarId, mainId, iconId) => {
+            const toggle = document.getElementById(toggleId);
+            const navbar = document.getElementById(navbarId);
+            const main = document.getElementById(mainId);
+            const icon = document.getElementById(iconId);
+            
+            if(toggle && navbar) {
+                toggle.addEventListener("click", () => {
+                    navbar.classList.toggle("expander");
+                    document.getElementById("collapse_menu1").classList.remove("showCollapse");
+                    document.getElementById("collapse_menu2").classList.remove("showCollapse");
+                    document.getElementById("arrow1").classList.remove("rotate");
+                    document.getElementById("arrow2").classList.remove("rotate");
+                    main.classList.toggle("padding-left");
+                    icon.classList.toggle("shift");
+                })
+            }
+        }
+        showMenu("nav_toggle", "navbar", "main", "icon");
+
+        const dropdown1 = document.getElementById("dropdown1");
+        const sub1 = document.getElementById("sub_menu1");     
+        if(dropdown1 && sub1) {
+            dropdown1.addEventListener("click", () => {
+                sub1.classList.toggle("drop");
+
+                const arrow = document.getElementById("arrow3");
+                arrow.classList.toggle("rotate")
+            })            
+        }
+        
+        
+
+        const dropdown2 = document.getElementById("dropdown2");
+        const sub2 = document.getElementById("sub_menu2");
+        if(dropdown2 && sub2) {
+            dropdown2.addEventListener("click", () => {
+                sub2.classList.toggle("drop");
+            })
+        }
+
+
+        const linkColor = document.querySelectorAll(".nav_link");
+        function colorLink() {
+            linkColor.forEach( i => i.classList.remove("active"));
+            this.classList.add("active");
+        }
+        linkColor.forEach(l=> l.addEventListener('click', colorLink))
+
+
+
+        const app1 = document.getElementById('collapse_link1');
+        app1.addEventListener("click", () => {
+            const ele = document.getElementById("collapse_menu1");
+            ele.classList.toggle("showCollapse")
+
+            const rotate = document.getElementById("arrow1")
+            rotate.classList.toggle('rotate')
+        });
+
+        const app2 = document.getElementById('collapse_link2');
+        app2.addEventListener("click", () => {
+            const ele = document.getElementById("collapse_menu2");
+            ele.classList.toggle("showCollapse")
+
+            const rotate = document.getElementById("arrow2")
+            rotate.classList.toggle('rotate')
+        });
+        
+        function openColumn(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+        }
+
+        // Get the element with id="defaultOpen" and click on it
+        document.getElementById("defaultOpen").click();
+    </script>
+</body>
+</html>

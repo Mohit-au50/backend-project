@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        :root {
+            --nav-width: 5.75rem;
+            --nav-ex-width: 15.75rem;
+
+            --first: #ffb300;
+            --bg-color: #12192c;
+            --sub-color: #b6cefc;
+            --white: #fff;
+
+            --normal-font-size: 1rem;
+            --small-font-size: .86rem;
+
+            --z-fixed: 100;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+            letter-spacing: 1px;
+            
+        }
+        .main {
+            display: grid;
+            place-items: center;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(18, 25, 44, 0.5), rgba(255, 179, 0, 0.5))
+             0% 0% / cover no-repeat fixed, url(images/loginbackground.jpg);
+            background-size: cover;
+        }
+        .card-container {
+            position: relative;
+            height: 520px;
+            width: 400px;
+            perspective: 900px;
+        }
+        .input {
+            display: none;
+        }
+        .input:checked ~ .the-card {
+            transform: rotateY(180deg);
+        }
+        /* .input:checked + .label {
+        background-color: var(--first);
+        color: var(--bg-color);
+        } */
+        .input:checked + .label::before {
+            content: 'Login';
+        }
+        .label {
+            position: absolute;
+            left: 27rem;
+            width: 100px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 9px;
+            text-align: center;
+            background-color: var(--bg-color);
+            color: var(--first);
+            transition: all .4s;
+            z-index: 1;
+        }
+        .label::before {
+            content: 'Signup';
+        }
+        .the-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: 0.5s;
+        }
+            
+        .card-box-front {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            border-radius: 16px;
+            backface-visibility: hidden;
+        }
+        .card-box-back {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            border-radius: 16px;
+            backface-visibility: hidden;
+            transform: rotateY(180deg);
+        }
+    
+        .login_card {
+            position: relative;
+            height: 520px;
+            width: 400px;
+            border-radius: .5rem;
+            background-color: #fff;
+            box-shadow: 0 0 .75rem black;
+            padding: 1.25rem;
+        }
+        a {
+            text-decoration: none;
+        }
+        .login_card .brand {
+            position: absolute;
+            top: -24px;
+            left: 20px;
+            background-color: var(--bg-color);
+            width: 360px;
+            height: 120px;
+            box-shadow: 0 0 10px 0.1px black;
+            border-radius: .25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .brand .brand_link {
+            margin-left: .5rem;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        .login_card .form {
+            margin-top: 7rem;
+            width: 100%;
+            height: 170px;
+            display: grid;
+            place-items: center;
+        }
+
+        .login_card .card_links {
+            width: 100%;
+            height: 64px;
+            margin-top: 8rem;
+            display: grid;
+            place-items: center;
+        }
+
+        .card_links .color {
+            color: grey;
+        }
+        .card_links a {
+            margin-left: 0.25rem;
+        }
+
+        .form .flex {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 1.5rem;
+        }
+        .form .fname,
+        .form .lname,
+        .form .number,
+        .form .email,
+        .form .password, 
+        .form .file {
+            width: 100%;
+            height: 36px;
+            border: none;
+            outline: none;
+            border-bottom: 1px solid var(--bg-color);
+            margin-bottom: 1.75rem;
+            padding: 0 1rem;
+            background-color: rgba(18, 25, 44, .1);
+        }
+        .form .file {
+            border: none;
+            line-height: 36px;
+            background-color: #fff;
+            margin-bottom: 1.5rem;
+        }
+        #file::-webkit-file-upload-button {
+            /* appearance: none;
+            outline: none; */
+            border: none;
+            padding: .5rem 1rem;
+            border-radius: .25rem;
+            margin-right: 1rem;
+            border: 1px solid var(--bg-color);
+            background-color: var(--bg-color);
+            color: var(--first);
+        }
+        .form .submit {
+            background-color: var(--first);
+            outline: none;
+            border: none;
+            font-size: 1rem;
+            padding: .60rem 2rem;
+            border-radius: .25rem;
+        }
+    </style>
+</head>
+<body>
+    <main class="main">
+        <div class="card-container">
+            <input type="checkbox" class="input" id="flip">
+            <label for="flip" class="label"></label>
+            <div class="the-card">
+                <div class="card-box-front">
+                    <div class="login_card">
+                        <div class="brand">
+                            <span class="img">
+                                <img src="images/logo.png" alt="logo" width="50px">
+                            </span>
+                            <a href="#" class="brand_link">AttainU</a>
+                        </div>
+            
+                        <form class="form" action="/userLogin" method="post">
+                            <input type="email" name="email" id="email" class="email" placeholder="Email Id">
+                            <input type="password" name="password" id="password" class="password" placeholder="Password">
+                            <input type="submit" value="Login" class="submit">
+                        </form>
+            
+                        <div class="card_links">
+                            <p><span class="color">Forgot Password?</span><a href="#">Click here</a></p>
+                            <p><span class="color">Not able to login?</span><a href="#">Create a ticket to resolve</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-box-back">
+                    <div class="login_card">
+                        <div class="brand">
+                            <span class="img">
+                                <img src="images/logo.png" alt="logo" width="50px">
+                            </span>
+                            <a href="#" class="brand_link">AttainU</a>
+                        </div>
+            
+                        <form class="form" action="/userSignup" method="post" enctype="multipart/form-data">
+                            <div class="flex">
+                                <input type="text" class="fname" name="fname" placeholder="First Name">
+                                <input type="text" class="lname" name="lname" placeholder="Last Name">
+                            </div>
+                            <input type="number" class="number" name="number" placeholder="Phone No." minlength="10">
+                            <input type="email" name="email" class="email" placeholder="Email Id">
+                            <div class="flex">
+                                <input type="password" name="password" class="password" placeholder="Password">
+                                <input type="password" name="cpassword" class="password" placeholder="Confirm Password">
+                            </div>
+                            
+                            <!-- <input type="file" class="file" name="file" id="file"> -->
+                            <input type="submit" value="Register" class="submit">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+</body>
+</html>

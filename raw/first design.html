@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Mohit-au50">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AttainU</title>
+    <!-- Open source icon library link -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+
+        :root {
+            --nav-width: 5.75rem;
+            --nav-ex-width: 15.75rem;
+
+            --first: #ffb300;
+            --bg-color: #12192c;
+            --sub-color: #b6cefc;
+            --white: #fff;
+
+            --normal-font-size: 1rem;
+            --small-font-size: .86rem;
+
+            --z-fixed: 100;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+            letter-spacing: 1px;
+            
+        }
+        /* body {
+            --primary: rgb(252,248,237);
+            --secondary: rgb(0,0,0);
+            --bg: #e6e6fa;
+            background: var(--bg);
+        }
+
+        body.dark {
+            --primary: rgb(0,0,0);
+            --secondary: rgb(252,248,237);
+            --bg: #242424;
+        } */
+        body {
+            font-size: var(--normal-font-size);
+            transition: .4s;
+            overflow: hidden;
+            width: 100%;
+            height: 100vh;
+        }
+
+        ul {
+            list-style: none;
+        }
+        a {
+            text-decoration: none;
+        }
+
+        .l-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+
+            width: var(--nav-width);
+            height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--white);
+
+            padding: 1.5rem 1.5rem 2rem;
+            z-index: var(--z-fixed);
+            transition: .4s;
+        }
+
+        .nav {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            overflow-y: scroll;
+        }
+        .nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav_brand {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .img {
+            position: relative;
+            height: 50px;
+            min-width: 40px;
+
+            display: grid;
+            place-items: center;
+        }
+        .img img {
+            position: absolute;
+        }
+        .nav_logo {
+            color: var(--white);
+            font-weight: bold;
+            margin: 0 1rem 0 1rem;
+            font-size: 24px;
+            line-height: 50px;
+        }
+        .nav_link {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            align-items: center;
+            column-gap: .75rem;
+            padding: .75rem;
+            color: var(--white);
+            border-radius: .5rem;
+            margin-bottom: 1rem;
+            transition: .3s;
+            cursor: pointer;
+        }
+
+        .nav_link:hover {
+            background-color: var(--first);
+        }
+        .nav_icon {
+            font-size: 1.25rem;
+            /* min-width: 20px; */
+        }
+        .nav_name {
+            font-size: var(--small-font-size);
+        }
+
+        .expander {
+            width: calc(var(--nav-width) + 10rem);
+        }
+
+        .body-pd {
+            padding-left: calc(var(--nav-ex-width) - var(--nav-width));
+        }
+        
+        .nav_link.active {
+            background-color: var(--first);
+        }
+
+        .collapse {
+            display: grid;
+            align-items: center;
+            column-gap: .75rem;
+            padding: .75rem;
+            color: var(--white);
+            border-radius: .5rem;
+            margin-bottom: .75rem;
+            transition: .3s;
+            cursor: pointer;
+            grid-template-columns: 20px max-content 1fr;
+        }
+        .arrow_link {
+            justify-self: flex-end;
+            transition: .4s;
+        }
+        .collapse_menu {
+            display: none;
+            grid-column: 1 / 4;
+            padding-top: 1.25rem;
+            padding-left: 1rem;
+        }
+        .collapse_menu .nav_link {
+            padding: .75rem;
+            margin-bottom: .5rem;
+        }
+        .collapse_sublink {
+            color: var(--white);
+            font-size: var(--small-font-size);
+        }
+        .collapse_sublink:hover {
+            color: var(--white);
+        }
+
+
+        .showCollapse {
+            display: block;
+        }
+        .rotate {
+            transform: rotate(180deg);
+        }
+
+        .header {
+            position: relative;
+            left: 0;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            height: 70px;
+            box-shadow: 0 1px 9px  gray;
+            background-color: var(--white);
+        }
+
+
+        .header .left_content {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            place-items: center;
+        }
+        .left_content #nav_toggle {
+            display: grid;
+            place-items: center;
+            width: 70px;
+            height: 70px;
+            font-size: 1.85rem;
+            cursor: pointer;
+        }
+        .left_content .dropdown {
+            display: grid;
+            grid-template-columns: max-content 24px;
+            border: 1px solid var(--bg-color);
+            border-radius: .25rem;
+            padding: .5rem 1rem;
+            background-color: var(--white);
+            cursor: pointer;
+        }
+        
+        .left_content .sub_menu {
+            position: absolute;
+            top: 60px;
+            width: 16.25rem;
+            padding: 0rem;
+            background-color: var(--white);
+            border: 1px solid var(--bg-color);
+            border-radius: .25rem;
+
+            overflow: hidden;
+            display: grid;
+            display: none;
+            grid-template-columns: 1fr;
+        }
+        .left_content .sub_menu.drop {
+            display: block;
+            display: grid;
+        }
+        .sub_menu a {
+            padding: .5rem 1rem;
+            color: #242424;
+        }
+        .sub_menu a:hover {
+            background-color: #ffc233;
+            padding: .5rem 1rem;
+        }
+
+        .header .right_content {
+            grid-column: 3 / 4;
+            display: grid;
+            grid-template-columns: max-content max-content;
+            place-items: center;
+        }
+        .right_content .dropdown {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            cursor: pointer;
+            place-items: center;
+        }
+        .right_content .rs_icon {
+            display: grid;
+            place-items: center;
+            width: 70px;
+            height: 70px;
+            font-size: 1.85rem;
+            cursor: pointer;
+        }
+        .right_content .user_img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 1.5rem;
+            border: 1px solid grey;
+        }
+
+        .right_content .sub_menu {
+            position: absolute;
+            top: 70px;
+            width: 8.5rem;
+            padding: 0rem;
+            background-color: var(--white);
+            border: 1px solid var(--bg-color);
+            border-radius: .25rem;
+
+            overflow: hidden;
+            display: grid;
+            display: none;
+            grid-template-columns: 1fr;
+        }
+
+        .right_content .sub_menu span {
+            padding-left: .75rem;
+        }
+        .right_content .sub_menu.drop {
+            display: block;
+            display: grid;
+        }
+
+        .main {
+            position: relative;
+            left: var(--nav-width);
+            width: 100%;
+            height: 80vh;
+            /* overflow-y: scroll; */
+        }
+        .main::-webkit-scrollbar {
+            display: none;
+        }
+
+        .footer {
+            width: 95%;
+            display: grid;
+            place-items: center;
+            height: 70px;
+            line-height: 70px;
+        }
+        .content {
+            width: 95%;
+            height: 80vh;
+            display: grid;
+            place-items: center;
+        }
+
+        .dashboard-card{
+            width: 50%;
+            height: 50%;
+            border: 1px solid black;
+        }
+        .BJdSd {
+            color: rgba(0, 0, 0, 0.65);
+            line-height: 1.5;
+            list-style: none;
+            position: relative;
+            padding: 30px;
+            overflow-wrap: break-word;
+            border-radius: 4px;
+            background-color: rgb(216, 231, 248);
+            border: 1px solid rgb(18, 59, 105);
+            text-align: center;
+            font-size: 20px;
+        }
+
+    </style>
+</head>
+<body id="body-pd">
+
+    <aside class="l-navbar" id="navbar">
+        <nav class="nav">
+            <div>
+                <div class="nav_brand">
+                    <span class="img">
+                        <img src="logo.png" alt="logo" width="50px">
+                    </span>
+                    
+                    <a href="#" class="nav_logo">AttainU</a>
+                </div>
+
+                <div class="nav_list">
+                    <!-- dashboard link -->
+                    <a href="#" class="nav_link active">
+                        <i class="ri-dashboard-3-fill nav_icon"></i>
+                        <span class="nav_name">Dashboard</span>
+                    </a>
+
+                    <!-- Announcement link -->
+                    <a href="#" class="nav_link">
+                        <i class="ri-user-voice-fill nav_icon"></i>
+                        <span class="nav_name">Announcements</span>
+                    </a>
+
+                    <!-- Session link -->
+                    <a href="#" class="nav_link">
+                        <i class="ri-computer-fill nav_icon"></i>
+                        <span class="nav_name">Session</span>
+                    </a>
+
+                    <!-- Student link with sub links -->
+                    <div class="collapse" id="collapse_link1">
+                        <i class="ri-user-2-fill nav_icon"></i>
+                        <span class="nav_name">Student</span>
+
+                        <i class="ri-arrow-down-s-line arrow arrow_link" id="arrow1"></i>
+                        <ul class="collapse_menu" id="collapse_menu1">
+                            <a href="#" class="collapse_sublink nav_link">Attendance</a>
+                            <a href="#" class="collapse_sublink nav_link">CC/Assignment</a>
+                            <a href="#" class="collapse_sublink nav_link">Test</a>
+                            <a href="#" class="collapse_sublink nav_link">Library</a>
+                            <a href="#" class="collapse_sublink nav_link">Reading Materials</a>
+                            <a href="#" class="collapse_sublink nav_link">Homework Solutions</a>
+                            <a href="#" class="collapse_sublink nav_link">GitHub Setup</a>
+                            <a href="#" class="collapse_sublink nav_link">Curriculum</a>
+                        </ul>
+                    </div>
+
+                    <!-- Ask doubt link with sub links -->
+                    <div class="collapse" id="collapse_link2">
+                        <i class="ri-question-fill nav_icon"></i>
+                        <span class="nav_name">Ask doubt</span>
+
+                        <i class="ri-arrow-down-s-line arrow arrow_link" id="arrow2"></i>
+                        <ul class="collapse_menu" id="collapse_menu2">
+                            <a href="#" class="collapse_sublink nav_link">Recent QnA</a>
+                            <a href="#" class="collapse_sublink nav_link">Pending Questions</a>
+                            <a href="#" class="collapse_sublink nav_link">Resolved Questions</a>
+                            <a href="#" class="collapse_sublink nav_link">Discussion Forum</a>
+                        </ul>
+                    </div>
+
+                    <!-- Certificate link -->
+                    <a href="#" class="nav_link">
+                        <i class="ri-medal-fill nav_icon"></i>
+                        <span class="nav_name">Certificate</span>
+                    </a>
+
+                    <!-- Account Details link -->
+                    <a href="#" class="nav_link">
+                        <i class="ri-wallet-fill nav_icon"></i>
+                        <span class="nav_name">Account Details</span>
+                    </a>
+
+                    <!-- Reward & referral link -->
+                    <a href="#" class="nav_link">
+                        <i class="ri-award-fill nav_icon"></i>
+                        <span class="nav_name">Reward & referral</span>
+                    </a>
+
+                    <!-- Freshdesk link -->
+                    <a href="#" class="nav_link">
+                        <i class="ri-customer-service-2-fill nav_icon"></i>
+                        <span class="nav_name">Freshdesk</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+
+    
+
+    <main class="main">
+        <header class="header">
+            <div class="left_content">
+                <i class="side-menu ri-menu-fold-line" id="nav_toggle"></i>
+                <div>
+                    <div class="dropdown" id="dropdown1">
+                        <span>Full Stack Pre Course - 5</span>
+                        <i class="ri-arrow-down-s-line arrow arrow_link" id="arrow3"></i>
+                    </div>
+                    <ul class="sub_menu" id="sub_menu1">
+                        <a href="#" class="sub_link">Full Stack Pre Course - 5</a>
+                        <a href="#" class="sub_link">FSD-JG-Aug-2022</a>
+                    </ul>
+                </div>
+            </div>
+            <div class="right_content">
+                <i class="ri-bookmark-fill rs_icon"></i>
+                <div>
+                    <div class="dropdown" id="dropdown2">
+                        <div class="user_img">
+                            <img src="" alt="" width="100%">
+                        </div>
+                        <div class="user_name">Mohit Kr</div>
+                    </div>
+                    <ul class="sub_menu" id="sub_menu2">
+                        <a href="#" class="sub_link"><i class="ri-user-fill"></i><span>Profile</span></a>
+                        <a href="#" class="sub_link"><i class="ri-logout-circle-r-fill"></i><span>Logout</span></a>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+            <div class="style__InfoBox-sc-1jali1v-0 BJdSd">
+                <div class="top">
+                    <div class="left">
+                        <div class="img-div">
+                            <img src="https://au-documents.s3.ap-south-1.amazonaws.com/profile/mohit-kr-e6fa13a9-8275-4594-8f5b-0f080cf72833.png" width="20px" alt="profile pic">
+                            <div class="camera">
+                                <i aria-label="icon: camera" class="anticon anticon-camera">
+                                    <svg viewBox="64 64 896 896" focusable="false" class="" data-icon="camera" width="1em" height="1em" fill="currentColor" aria-hidden="true">
+                                        <path d="M864 248H728l-32.4-90.8a32.07 32.07 0 0 0-30.2-21.2H358.6c-13.5 0-25.6 8.5-30.1 21.2L296 248H160c-44.2 0-80 35.8-80 80v456c0
+                                        44.2 35.8 80 80 80h704c44.2 0 80-35.8 80-80V328c0-44.2-35.8-80-80-80zm8 536c0 4.4-3.6 8-8 8H160c-4.4 0-8-3.6-8-8V328c0-4.4
+                                        3.6-8 8-8h186.7l17.1-47.8 22.9-64.2h250.5l22.9 64.2 17.1 47.8H864c4.4 0 8 3.6 8 8v456zM512 384c-88.4 0-160 71.6-160 160s71.6
+                                        160 160 160 160-71.6 160-160-71.6-160-160-160zm0 256c-53 0-96-43-96-96s43-96 96-96 96 43 96 96-43 96-96 96z"></path>
+                                    </svg>
+                                </i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <h1 class="style__Title-sc-1jali1v-1 DeBrm">Welcome, Mohit Kr</h1>
+                        <p class="style__Para-sc-1jali1v-2 ghcUNL">Catch a glimpse of your profile</p>
+                    </div>
+                </div>
+                <div>
+                    <span class="ant-tag ant-tag-has-color" style="background-color: rgb(255, 85, 0);">mk.mohit2440@gmail.com</span>
+                    <span class="ant-tag ant-tag-has-color" style="background-color: rgb(45, 183, 245);">8826709142</span>
+                    <div>
+                        <span class="ant-tag ant-tag-has-color" style="background-color: rgb(135, 208, 104);">Roll Number : AUFS018280</span>
+                        <span class="ant-tag ant-tag-has-color" style="background-color: rgb(16, 142, 233);">https://github.com/Mohit-au50</span>
+                        <span class="ant-tag ant-tag-has-color" style="background-color: rgb(190, 0, 39);">Batch: Full Stack Pre Courses - 5</span>
+                        <span class="ant-tag ant-tag-has-color" style="background-color: rgb(201, 15, 62);">Batch Start Date: 05-Mar-2021</span>
+                        <br>
+                    </div>
+                    <div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">AttainU &copy; 2023</footer>
+    </main>
+    
+    
+
+    <script>
+
+        const showMenu = (toggleId, navbarId, bodyId) => {
+            const toggle = document.getElementById(toggleId);
+            const navbar = document.getElementById(navbarId);
+            const body_pd = document.getElementById(bodyId);
+            
+            if(toggle && navbar) {
+                toggle.addEventListener("click", () => {
+                    navbar.classList.toggle("expander");
+                    document.getElementById("collapse_menu1").classList.remove("showCollapse");
+                    document.getElementById("collapse_menu2").classList.remove("showCollapse");
+                    document.getElementById("arrow1").classList.remove("rotate");
+                    document.getElementById("arrow2").classList.remove("rotate");
+                    body_pd.classList.toggle("body-pd");
+                })
+            }
+        }
+        showMenu("nav_toggle", "navbar", "body-pd");
+
+        const dropdown1 = document.getElementById("dropdown1");
+        const sub1 = document.getElementById("sub_menu1")
+        if(dropdown1 && sub1) {
+            dropdown1.addEventListener("click", () => {
+                sub1.classList.toggle("drop");
+
+                const arrow = document.getElementById("arrow3");
+                arrow.classList.toggle("rotate")
+            })
+        }
+        
+
+        const dropdown2 = document.getElementById("dropdown2");
+        const sub2 = document.getElementById("sub_menu2")
+        if(dropdown2 && sub2) {
+            dropdown2.addEventListener("click", () => {
+                sub2.classList.toggle("drop");
+            })
+        }
+
+
+        const linkColor = document.querySelectorAll(".nav_link");
+        function colorLink() {
+            linkColor.forEach( i => i.classList.remove("active"));
+            this.classList.add("active");
+        }
+        linkColor.forEach(l=> l.addEventListener('click', colorLink))
+
+
+
+        const app1 = document.getElementById('collapse_link1');
+        app1.addEventListener("click", () => {
+            const ele = document.getElementById("collapse_menu1");
+            ele.classList.toggle("showCollapse")
+
+            const rotate = document.getElementById("arrow1")
+            rotate.classList.toggle('rotate')
+        });
+
+        const app2 = document.getElementById('collapse_link2');
+        app2.addEventListener("click", () => {
+            const ele = document.getElementById("collapse_menu2");
+            ele.classList.toggle("showCollapse")
+
+            const rotate = document.getElementById("arrow2")
+            rotate.classList.toggle('rotate')
+        });
+        
+
+
+
+
+    </script>
+</body>
+</html>
