@@ -37,7 +37,7 @@ const User = new mongoose.model("user_collection", userSchema);
 // getdata();
 
 app.listen(5000, () => {
-    console.log("server is live on port 5000")
+    console.log("final server is live on port 5000")
 })
 
 module.exports = User;
