@@ -21,7 +21,7 @@ const id_Value = [];
 app.get("/home", verifyToken, async (req, res) => {
 
     const userId = await User.findOne({_id: id_Value})
-    console.log(id_Value)
+    
     res.render('home', {
         hey: "hi there, Welcome!",
         userId: userId, 
