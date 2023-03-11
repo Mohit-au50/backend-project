@@ -4,7 +4,6 @@ const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const ejs = require("ejs");
-const fileUpload = require("express-fileupload");
 const app = express();
 const User = require("./data");
 const verifyToken = require("./middleware");
@@ -12,32 +11,39 @@ const verifyToken = require("./middleware");
 app.use(express.json());
 app.use(urlencoded({extended: true}))
 app.use(cookieParser())
-app.use(fileUpload())
 app.set("view engine", "ejs")
 app.use(express.static("public"))
 
-const id_Value = [];
+
+let dataToSearch = [];
 
 app.get("/home", verifyToken, async (req, res) => {
-
-    const userId = await User.findOne({_id: id_Value})
-    
+    let showData = await User.findOne({email: dataToSearch});
+    // console.log(showData.fname)
     res.render('home', {
         hey: "hi there, Welcome!",
-        userId: userId, 
+        showData: showData,
     })
 })
 
+
 app.post("/userLogin", async (req, res) => {
     const data = req.body;
-    let user_password = data.password;
+    if(dataToSearch.length == "") {
+        dataToSearch.push(data.email);
+    }
+    dataToSearch.shift();
+    dataToSearch.push(data.email);
+    
+    let logPass = data.password;
     let email = data.email;
-
     let user_data = await User.findOne({email: email})
-    if(!user_data) return res.send("user doesn't exsits")
+    if(!user_data) {
+        res.send("user doesn't exsist!")
+    }
 
     let db_password = user_data.password;
-    const isValid = await bcrypt.compare(user_password.toString(), db_password)
+    const isValid = await bcrypt.compare(logPass.toString(), db_password)
     if(!isValid) return res.send("Icorrect!!")
 
     // generate token
@@ -71,14 +77,20 @@ app.post("/userSignup", async (req, res) => {
     const hashed_password = await bcrypt.hash(user_password.toString(), salt);
     const data_to_store = new User({fname: user_fname, lname: user_lname, phone: user_phone, email: user_email, password: hashed_password})
     const result = await data_to_store.save();
-    id_Value.push(result._id.valueOf())
     
     res.redirect("/")
 })
 
 app.get("/", (req, res) => {
-    res.render("userdata")
+    
+    res.render("logNsign")
+    // User.find({}, (err, userdatas) => {
+    //     res.render("new", {
+    //         mongoData: userdatas,
+    //     })
+    // })
 })
+
 app.post("/update", verifyToken, (req, res) => {
     return res.redirect("/home");
 })
@@ -89,4 +101,4 @@ app.get("/logout", (req, res) => {
 })
 
 app.listen(3000)
-console.log("final is live on port 3000")
+console.log("server is live on port 3000")

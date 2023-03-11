@@ -442,7 +442,7 @@
             justify-content: space-evenly;
             align-items: center; */
             display: grid;
-            grid-template-columns: 2rem 1fr 1fr 1fr 2rem;
+            grid-template-columns: .1rem 1fr 1fr 1fr .1rem;
             place-items: center;
         }
 
@@ -453,7 +453,7 @@
             justify-content: space-evenly;
             align-items: center; */
             display: grid;
-            grid-template-columns: 2rem 1fr 1fr 1fr 2rem;
+            grid-template-columns: .1rem 1fr 1fr 1fr .1rem;
             place-items: center;
         }
 
@@ -464,7 +464,7 @@
             justify-content: space-evenly;
             align-items: center; */
             display: grid;
-            grid-template-columns: 2rem 1fr 1fr 1fr 2rem;
+            grid-template-columns: .1rem 1fr 1fr 1fr .1rem;
             place-items: center;
         }
 
@@ -475,7 +475,7 @@
             justify-content: space-evenly;
             align-items: center; */
             display: grid;
-            grid-template-columns: 2rem 1fr 1fr 2rem;
+            grid-template-columns: 1rem 1fr 1fr 1rem;
             place-items: center;
         }
         .progress-details p {
@@ -593,7 +593,7 @@
             color: rgba(36, 36, 36, .9);
         }
         .same input {
-            width: 18rem;
+            width: 24rem;
             border: none;
             outline: none;
             background-color: transparent;
@@ -641,7 +641,7 @@
                         <div class="user_img">
                             <i class="ri-user-6-fill img"></i>
                         </div>
-                        <div class="user_name"><%= userId.fname%> <%= userId.lname%></div>
+                        <div class="user_name"><%= showData.fname%> <%= showData.lname%></div>
                     </div>
                     <ul class="sub_menu" id="sub_menu2">
                         <a href="#" class="sub_link" id="profile">
@@ -760,7 +760,7 @@
                         </span>
                     </div>
                     <div class="right">
-                        <h1 class="heading">Welcome, <%= userId.fname%> <%= userId.lname%></h1>
+                        <h1 class="heading">Welcome, <%= showData.fname%> <%= showData.lname%></h1>
                         <p class="sub-text">Catch a glimpse of your profile</p>
                     </div>
                 </div>
@@ -768,15 +768,15 @@
                 <div class="details">
                     <div class="personal-details">
                         <p class="phone first">
-                            <%= userId.phone%>
+                            <%= showData.phone%>
                             <span class="tooltiptext">Phone</span>
                         </p>
                         <p class="email second">
-                            <%= userId.email%>
+                            <%= showData.email%>
                             <span class="tooltiptext">Email</span>
                         </p>
                         <p class="github third">
-                            https://github.com/<%= userId.fname%>-<%= userId.lname%>-au50
+                            https://github.com/<%= showData.fname%>-<%= showData.lname%>-au50
                             <span class="tooltiptext">Github</span>
                         </p>
                     </div>
@@ -798,7 +798,7 @@
 
                     <div class="faculty-details" id="visibility1">
                         <p class="first">
-                            Sitesh
+                            God
                             <span class="tooltiptext">Mentor</span>
                         </p>
                         <p class="second">
@@ -849,7 +849,7 @@
 
                         <div class="same">
                             <label for="name">Name</label> <br>
-                            <input type="text" name="name" value="<%= userId.fname%> <%= userId.lname%>" readonly>
+                            <input type="text" name="name" value="<%= showData.fname%> <%= showData.lname%>" readonly>
                         </div>
 
                         <div class="same same-flex">
@@ -870,7 +870,7 @@
                         <div class="same same-flex">
                             <div>
                                 <label for="phone">Phone Number</label> <br>
-                                <input type="phone" name="phone" value="<%= userId.phone%>" readonly>
+                                <input type="phone" name="phone" value="<%= showData.phone%>" readonly>
                             </div>
                             <div>
                                 <a href="#">Modify Number</a>
@@ -879,13 +879,13 @@
 
                         <div class="same">
                             <label for="email">Email</label> <br>
-                            <input type="email" name="email" value="<%= userId.email%>" readonly>
+                            <input type="email" name="email" value="<%= showData.email%>" readonly>
                         </div>
 
                         <div class="same same-flex">
                             <div>
                                 <label for="github">Github</label> <br>
-                                <input type="text" name="github" value="https://github.com/<%= userId.fname%>-<%= userId.lname%>-au50" readonly>
+                                <input type="text" name="github" value="https://github.com/<%= showData.fname%>-<%= showData.lname%>-au50" readonly>
                             </div>
                             <div>
                                 <a href="#">Modify</a>
