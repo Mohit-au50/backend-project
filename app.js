@@ -82,13 +82,7 @@ app.post("/userSignup", async (req, res) => {
 })
 
 app.get("/", (req, res) => {
-    
     res.render("logNsign")
-    // User.find({}, (err, userdatas) => {
-    //     res.render("new", {
-    //         mongoData: userdatas,
-    //     })
-    // })
 })
 
 app.post("/update", verifyToken, (req, res) => {
